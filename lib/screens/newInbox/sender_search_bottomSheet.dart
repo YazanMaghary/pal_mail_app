@@ -76,7 +76,9 @@ class SenderSearchWidget {
                               radius: 60,
                               onSaved: (p0) {},
                               hintText: context.localizations!.sendersearch,
-                              prefixIcon: Icons.search,
+                              prefixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.search)),
                               suffixIcon: IconButton(
                                   splashColor: Colors.transparent,
                                   onPressed: () {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pal_mail_app/controller/home_controller.dart';
+import 'package:pal_mail_app/controller/user_controller.dart';
 import 'package:pal_mail_app/models/mails_model.dart';
+import 'package:pal_mail_app/providers/language_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../models/category_modl.dart';
 import '../models/status_model.dart';
@@ -14,6 +17,7 @@ class HomeProvider with ChangeNotifier {
   List<Category> category = [];
   List<Mail> categoryForeign = [];
   List<String> tag = ["All Tags"];
+  List? tagId = [0];
   List<StatusMails> statusMails = [];
   int countStatusInbox = 0;
   int countStatusInProgress = 0;
@@ -24,14 +28,22 @@ class HomeProvider with ChangeNotifier {
   double yoffset = 0;
   double scalefactor = 1;
   bool isdraweropen = false;
-
+  String? roleId;
   final HomeHelper _homeHelper = HomeHelper.instance;
+  Future<void> getRoleId() async {
+    UserController user = UserController();
+    await user.getLocalUser().then((value) {
+      print(roleId = value.user.roleId);
+      roleId = value.user.roleId;
+      notifyListeners();
+    });
+  }
 
-  getFetchData() async {
-    getAllMails();
-    getStatusMails();
-    getTage();
-    getCategory();
+  Future<void> getFetchData() async {
+    await getAllMails();
+    await getStatusMails();
+    await getTage();
+    await getCategory();
   }
 
   Future<void> getFetchDataLoadding() async {
@@ -116,9 +128,11 @@ class HomeProvider with ChangeNotifier {
   Future<void> getTage() async {
     await _homeHelper.getTage().then((value) {
       tag.clear();
+      tagId!.clear();
       tagsModelToJson(value);
       for (var element in value.tags!) {
         tag.add(element.name!);
+        tagId!.add(element.id);
       }
     });
   }
@@ -136,8 +150,13 @@ class HomeProvider with ChangeNotifier {
     countStatusCompleted = 0;
   }
 
-  void drawerClose() {
-    xoffset = 320;
+  void drawerClose(context) {
+    final lanProv = Provider.of<LanguageProvider>(context, listen: false);
+    if (lanProv.isEnglishLanguage) {
+      xoffset = 320;
+    } else {
+      xoffset = -250;
+    }
     yoffset = 90;
     scalefactor = 0.8;
     isdraweropen = true;

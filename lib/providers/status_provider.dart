@@ -29,10 +29,11 @@ class StatusProvider extends ChangeNotifier {
         _statusId.add(element.id!);
       });
     });
+
     notifyListeners();
   }
 
-  void isSelected(index) async {
+  void isSelected(index) {
     _selected.length = _statusName.length;
     for (var i = 0; i < _selected.length; i++) {
       if (i == index) {

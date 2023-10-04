@@ -221,7 +221,12 @@ class CustomModalBottomSheet {
                                           },
                                           colors: Colors.white,
                                           hintText: context.localizations!.name,
-                                          prefixIcon: Icons.account_circle,
+                                          prefixIcon: IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.account_circle),
+                                            splashColor: Colors.transparent,
+                                          ),
                                           suffixIcon: IconButton(
                                               splashColor: Colors.transparent,
                                               onPressed: () {
@@ -255,8 +260,10 @@ class CustomModalBottomSheet {
                                           colors: Colors.white,
                                           hintText:
                                               context.localizations!.mobile,
-                                          prefixIcon:
-                                              Icons.phone_android_outlined,
+                                          prefixIcon: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(Icons
+                                                  .phone_android_outlined)),
                                           controller: mobileController,
                                           type: TextInputType.text,
                                         );
@@ -906,7 +913,9 @@ class CustomModalBottomSheet {
                                                     : 45,
                                             child: const Icon(
                                                 Icons.send_rounded))),
-                                    prefixIcon: Icons.circle,
+                                    prefixIcon: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.circle)),
                                     radius: 60.r,
                                     colors: const Color(0xffEEEEF6),
                                     outlinedBorder: true,

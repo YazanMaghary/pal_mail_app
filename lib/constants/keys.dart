@@ -24,6 +24,7 @@ class Keys {
   static const attachmentUrl = '$baseUrl/attachments';
   static const sendersUrl = '$baseUrl/senders';
   static const userUrl = '$baseUrl/user';
+  static const roleUrl = '$baseUrl/roles';
 }
 
 const String baseUrl = 'https://palmail.gsgtt.tech/api';

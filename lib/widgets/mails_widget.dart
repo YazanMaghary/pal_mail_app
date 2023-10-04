@@ -4,9 +4,13 @@ import 'package:pal_mail_app/constants/keys.dart';
 import 'package:pal_mail_app/constants/widget.dart';
 import 'package:pal_mail_app/models/mails_model.dart';
 import 'package:pal_mail_app/providers/details_mail_provider.dart';
+import 'package:pal_mail_app/providers/home_provider.dart';
 import 'package:pal_mail_app/screens/details_mail_screen.dart';
+import 'package:pal_mail_app/services/localizations_extention.dart';
 import 'package:pal_mail_app/widgets/navigate_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'flutterToastWidget.dart';
 
 Widget mailsWidget({
   required Mail mails,
@@ -47,7 +51,8 @@ Widget mailsWidget({
                 ),
                 const Spacer(),
                 Text(
-                  "Today, 11:00 AM",
+                  DateFormat.yMMMd(context.localizations!.dateLan).format(
+                      DateTime.parse(mails.createdAt!.split('T').first)),
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.5),
                     fontSize: 16.sp,
@@ -57,16 +62,26 @@ Widget mailsWidget({
                   width: 8.w,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     final detailsMailProvider =
                         Provider.of<DetailsMailProvider>(context,
                             listen: false);
-                    detailsMailProvider.setStatusMailsID(mails.status!.id!);
-                    detailsMailProvider.setAttachmentList(mails.attachments);
-                    detailsMailProvider.setActivityList(mails.activities);
-                    navigatePush(
-                        context: context,
-                        nextScreen: DetailsMailScreen(mail: mails));
+                    final homeProv =
+                        Provider.of<HomeProvider>(context, listen: false);
+                    await homeProv.getRoleId();
+                    if (homeProv.roleId == "2") {
+                      flutterToastWidget(
+                          msg: "You Must have permession to add mail",
+                          colors: Colors.orange);
+                    } else {
+                      detailsMailProvider.setStatusMailsID(mails.status!.id!);
+                      detailsMailProvider.setAttachmentList(mails.attachments);
+                      detailsMailProvider.setActivityList(mails.activities);
+                      // ignore: use_build_context_synchronously
+                      navigatePush(
+                          context: context,
+                          nextScreen: DetailsMailScreen(mail: mails));
+                    }
                   },
                   child: const Icon(Icons.arrow_forward_ios),
                 ),
@@ -109,11 +124,14 @@ Widget mailsWidget({
               child: Row(
                 children: [
                   for (var element in mails.tags!)
-                    Text(
-                      "#$element",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        color: Colors.blueAccent,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0.w),
+                      child: Text(
+                        "#${element.name}",
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          color: Colors.blueAccent,
+                        ),
                       ),
                     )
                 ],

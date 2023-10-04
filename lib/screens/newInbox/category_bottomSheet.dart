@@ -67,7 +67,6 @@ class CategoriesBottomSheet {
                   smallSpacer,
                   Consumer<CategoryProvider>(
                     builder: (context, value, child) {
-                      getData();
                       return value.catName.isEmpty
                           ? Shimmer(
                               gradient: const LinearGradient(
@@ -238,5 +237,6 @@ class CategoriesBottomSheet {
         );
       },
     ).whenComplete(() {});
+    await getData();
   }
 }

@@ -32,6 +32,9 @@
 "adddecision":"اضافة قرار..",
 "addimage":"اضافة صورة",
 "activity":"نشاط",
-"sendersearch":"ادخل اسم المرسل"
-
+"sendersearch":"ادخل اسم المرسل",
+"senders":"المرسلين",
+"profilepage":"الملف الشخصي",
+"usermang":"ادارة المستخدمين",
+"dateLan":"ar"
 }

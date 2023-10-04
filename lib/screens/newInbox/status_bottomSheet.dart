@@ -67,7 +67,6 @@ class StatusBottomSheet {
                   smallSpacer,
                   Consumer<StatusProvider>(
                     builder: (context, value, child) {
-                      getData();
                       return value.statusName.isEmpty
                           ? Shimmer(
                               gradient: const LinearGradient(
@@ -231,5 +230,6 @@ class StatusBottomSheet {
         );
       },
     ).whenComplete(() {});
+    await getData();
   }
 }

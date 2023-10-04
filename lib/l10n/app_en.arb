@@ -32,5 +32,9 @@
 "adddecision":"Add Decision..",
 "addimage":"Add Image",
 "activity":"Activity",
-"sendersearch":"Enter sender name"
+"sendersearch":"Enter sender name",
+"senders":"Senders",
+"profilepage":"Profile Page",
+"usermang":"User Management",
+"dateLan":"en"
 }

@@ -22,7 +22,6 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final response = await _userController.getLocalUser();
-
       _data = ApiResponse.completed(response);
 
       notifyListeners();

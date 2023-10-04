@@ -8,6 +8,7 @@ import 'package:pal_mail_app/providers/language_provider.dart';
 import 'package:pal_mail_app/screens/newInbox/new_inbox_bottomSheet.dart';
 import 'package:pal_mail_app/screens/search_screen.dart';
 import 'package:pal_mail_app/services/localizations_extention.dart';
+import 'package:pal_mail_app/widgets/flutterToastWidget.dart';
 import 'package:pal_mail_app/widgets/mails_widget.dart';
 import 'package:pal_mail_app/widgets/navigate_widget.dart';
 
@@ -17,19 +18,15 @@ import 'package:provider/provider.dart';
 
 import '../widgets/tags_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
     TextEditingController searchController = TextEditingController();
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       height: MediaQuery.of(context).size.height,
@@ -57,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             icon: const Icon(Icons.arrow_back_ios))
                         : IconButton(
-                            onPressed: () {
-                              homeProvider.drawerClose();
+                            onPressed: () async {
+                              homeProvider.drawerClose(context);
                             },
                             icon: const Icon(Icons.notes_sharp)),
                     IconButton(
@@ -88,7 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       navigatePush(
                           context: context, nextScreen: SearchScreen());
                     },
-                    prefixIcon: Icons.connected_tv_sharp,
+                    prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.connected_tv_sharp)),
                     colors: Colors.white,
                     outlinedBorder: false),
                 smallSpacer,
@@ -235,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 20.sp),
                   ),
                 ),
-                TagsWidget(tag: homeProvider.tag),
+                TagsWidget(tag: homeProvider.tag, tagId: homeProvider.tagId!),
                 mediumSpacer,
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -245,8 +244,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             BorderRadius.vertical(top: Radius.circular(20.r))),
                     alignment: Alignment.centerLeft,
                     child: TextButton(
-                        onPressed: () {
-                          CustomModalBottomSheet(context: context).show();
+                        onPressed: () async {
+                          await homeProvider.getRoleId();
+                          if (homeProvider.roleId == "2") {
+                            flutterToastWidget(
+                                msg: "You Must have permession to add mail",
+                                colors: Colors.orange);
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            CustomModalBottomSheet(context: context).show();
+                          }
                         },
                         child: Row(
                           children: [

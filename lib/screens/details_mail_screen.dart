@@ -80,7 +80,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                 height: 16.h,
               ),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.w.h),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(30.r))),
@@ -100,6 +100,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                           children: [
                             Text(
                               widget.mail.sender!.name!,
+                              overflow: TextOverflow.clip,
                               style: TextStyle(
                                 fontSize: 16.sp,
                               ),
@@ -109,6 +110,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                             ),
                             Text(
                               widget.mail.sender!.category!.name!,
+                              overflow: TextOverflow.clip,
                               style: TextStyle(
                                 fontSize: 14.sp,
                               ),
@@ -121,6 +123,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                           children: [
                             Text(
                               widget.mail.archiveDate!,
+                              overflow: TextOverflow.clip,
                               style: TextStyle(
                                 fontSize: 16.sp,
                               ),
@@ -130,6 +133,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                             ),
                             Text(
                               '${context.localizations!.archivenumber} : ${widget.mail.archiveNumber!}',
+                              overflow: TextOverflow.clip,
                               style: TextStyle(
                                 fontSize: 14.sp,
                               ),
@@ -175,7 +179,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(30.r))),
                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                child: Row(
+                child: Wrap(
                   children: [
                     for (var element in widget.mail.tags!)
                       Container(
@@ -410,7 +414,8 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                   controller: controllerActivity,
                   type: TextInputType.text,
                   hintText: "Add new Activity … ",
-                  prefixIcon: Icons.person,
+                  prefixIcon: IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.person)),
                   suffixIcon: IconButton(
                       onPressed: () {
                         detailsMailProvider.addActivity(Activity(

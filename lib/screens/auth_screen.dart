@@ -16,6 +16,7 @@ import 'package:pal_mail_app/widgets/register_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/language_provider.dart';
+import 'guest_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -214,17 +215,19 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                                 authProvider.loginUser({
                                   'email': emailController.text,
                                   'password': passwordController.text,
-                                }, context).then((value) {
-                                  final homeProvider =
-                                      Provider.of<HomeProvider>(context,
-                                          listen: false);
-                                  homeProvider.getFetchData();
-                                  Timer.periodic(Duration(seconds: 6),
-                                      (Timer t) {
+                                }, context).then((value) async {
+                                  // ignore: unrelated_type_equality_checks
+                                  if (authProvider.roleId == "1") {
+                                    // ignore: use_build_context_synchronously
                                     navigatePushReplacement(
                                         context: context,
-                                        nextScreen: HomeScreen());
-                                  });
+                                        nextScreen: const GuestScreen());
+                                  } else {
+                                    // ignore: use_build_context_synchronously
+                                    navigatePushReplacement(
+                                        context: context,
+                                        nextScreen: const HomeScreen());
+                                  }
                                 });
                               }
                             },

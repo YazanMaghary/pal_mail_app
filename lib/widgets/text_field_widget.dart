@@ -7,7 +7,7 @@ Widget textFormFieldWidget(
         required TextInputType type,
         double? radius = 15,
         Widget? label,
-        IconData? prefixIcon,
+        IconButton? prefixIcon,
         IconButton? suffixIcon,
         String? Function(String?)? validate,
         Function? onSubmit,
@@ -37,7 +37,7 @@ Widget textFormFieldWidget(
           hintText: hintText,
           floatingLabelBehavior: floatingLabelBehavior,
           fillColor: colors ?? const Color(0xffF7F7FA),
-          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+          prefixIcon: prefixIcon != null ? prefixIcon : null,
           suffixIcon: suffixIcon,
           border: outlinedBorder
               ? OutlineInputBorder(

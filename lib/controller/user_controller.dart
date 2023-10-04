@@ -7,7 +7,6 @@ class UserController {
   Future<UserModel> getLocalUser() async {
     SharedPrefsController prefs = SharedPrefsController();
     bool hasKey = await prefs.containsKey('user');
-
     if (hasKey) {
       dynamic userData = await prefs.getData('user');
       if (userData != null) {
@@ -17,17 +16,6 @@ class UserController {
     }
     return Future.error('not found');
   }
-
-// static Future<User> getUser() async {
-//   final ApiBaseHelper helper = ApiBaseHelper();
-//   final String token = await getToken();
-//   final response = await helper.get(
-//     '/user',
-//     {'Authorization': 'Bearer $token'},
-//   );
-//   print(User.fromJson(response[1]));
-//   return User.fromJson(response[1]);
-// }
 }
 
 // Future<String> getUserNewImage() async {
