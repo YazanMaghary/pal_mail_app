@@ -13,7 +13,7 @@ class DetailsMailController {
       // ignore: unused_local_variable
       final response = await http.put(Uri.parse("${Keys.mailsUrl}/$id"),
           body: body, headers: Keys.instance.header);
-      flutterToastWidget(msg: "Succes", colors: Colors.green);
+      flutterToastWidget(msg: "Success", colors: Colors.green);
     } catch (e) {
       flutterToastWidget(msg: "Failed", colors: Colors.redAccent);
       print(e.toString());

@@ -1,30 +1,27 @@
+// To parse this JSON data, do
+//
+//     final userModel = userModelFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'package:pal_mail_app/models/user_model.dart';
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-AllUserModel allUserModelFromJson(String str) =>
-    AllUserModel.fromJson(json.decode(str));
+String userModelToJson(UserModel data) => json.encode(data.toJson());
 
-String allUserModelToJson(AllUserModel data) => json.encode(data.toJson());
+class UserModel {
+  List<User> users;
 
-class AllUserModel {
-  List<User>? users;
-
-  AllUserModel({
-    this.users,
+  UserModel({
+    required this.users,
   });
 
-  factory AllUserModel.fromJson(Map<String, dynamic> json) => AllUserModel(
-    users: json["users"] == null
-        ? []
-        : List<User>.from(json["users"]!.map((x) => User.fromJson(x))),
-  );
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "users": users == null
-        ? []
-        : List<dynamic>.from(users!.map((x) => x.toJson())),
-  };
+        "users": List<dynamic>.from(users.map((x) => x.toJson())),
+      };
 }
 
 class User {
@@ -36,69 +33,69 @@ class User {
   String? roleId;
   String? createdAt;
   String? updatedAt;
-  Roles? role;
+  Role? role;
 
   User({
-    this.id,
-    this.name,
-    this.email,
-    this.image,
-    this.emailVerifiedAt,
-    this.roleId,
-    this.createdAt,
-    this.updatedAt,
-    this.role,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.image,
+    required this.emailVerifiedAt,
+    required this.roleId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.role,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    name: json["name"],
-    email: json["email"],
-    image: json["image"],
-    emailVerifiedAt: json["email_verified_at"],
-    roleId: json["role_id"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
-    role: json["role"] == null ? null : Roles.fromJson(json["role"]),
-  );
+        id: json["id"],
+        name: json["name"],
+        email: json["email"],
+        image: json["image"],
+        emailVerifiedAt: json["email_verified_at"],
+        roleId: json["role_id"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+        role: Role.fromJson(json["role"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "email": email,
-    "image": image,
-    "email_verified_at": emailVerifiedAt,
-    "role_id": roleId,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-    "role": role?.toJson(),
-  };
+        "id": id,
+        "name": name,
+        "email": email,
+        "image": image,
+        "email_verified_at": emailVerifiedAt,
+        "role_id": roleId,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "role": role!.toJson(),
+      };
 }
 
-class Roles extends Role {
+class Role {
   int? id;
   String? name;
   String? createdAt;
   String? updatedAt;
 
-  Roles({
-    this.id,
-    this.name,
-    this.createdAt,
-    this.updatedAt,
-  }) : super(id: 0, name: '', createdAt: '', updatedAt: '');
+  Role({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
-  factory Roles.fromJson(Map<String, dynamic> json) => Roles(
-    id: json["id"],
-    name: json["name"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
-  );
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
+        id: json["id"],
+        name: json["name"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-  };
+        "id": id,
+        "name": name,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }

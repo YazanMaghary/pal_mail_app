@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pal_mail_app/models/all_user_model.dart';
 import 'package:pal_mail_app/providers/home_provider.dart';
 import 'package:pal_mail_app/services/helper/api_base_helper.dart';
 import 'package:pal_mail_app/constants/keys.dart';
@@ -22,8 +21,8 @@ class AuthHelper {
           .then((value) async {
         homeProvider.getFetchDataLoadding();
       });
-      print(User.fromJson(response['user']).roleId);
-      return User.fromJson(response["user"]).roleId;
+      print(UserClass.fromJson(response['user']).roleId);
+      return UserClass.fromJson(response["user"]).roleId;
     } catch (e) {
       flutterToastWidget(msg: "LogIn Failed", colors: Colors.redAccent);
     }

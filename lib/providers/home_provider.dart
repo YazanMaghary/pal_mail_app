@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pal_mail_app/controller/home_controller.dart';
 import 'package:pal_mail_app/controller/user_controller.dart';
 import 'package:pal_mail_app/models/mails_model.dart';
+import 'package:pal_mail_app/models/single_sender_model.dart' as send;
 import 'package:pal_mail_app/providers/language_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../controller/sender_profile_controller.dart';
 import '../models/category_modl.dart';
 import '../models/status_model.dart';
 import '../models/tage_model.dart';
+import 'new_inbox_provider.dart';
 
 class HomeProvider with ChangeNotifier {
   List<Mail> mail = [];
@@ -29,6 +32,7 @@ class HomeProvider with ChangeNotifier {
   double scalefactor = 1;
   bool isdraweropen = false;
   String? roleId;
+  send.SingleSenderModel? senderMails;
   final HomeHelper _homeHelper = HomeHelper.instance;
   Future<void> getRoleId() async {
     UserController user = UserController();
@@ -168,6 +172,20 @@ class HomeProvider with ChangeNotifier {
     yoffset = 0;
     scalefactor = 1;
     isdraweropen = false;
+    notifyListeners();
+  }
+
+  Future<void> getSenderMails(context, TextEditingController searchController,
+      int index, int index2) async {
+    final newInboxProv = Provider.of<NewInboxProvider>(context);
+    SenderProfileController prof = SenderProfileController.instance;
+    await prof
+        .getSenderWithMails(searchController.text == ''
+            ? newInboxProv.categories[index].senders![index2].id!
+            : newInboxProv.filters[index].senders![index2].id!)
+        .then((value) {
+      senderMails = value;
+    });
     notifyListeners();
   }
 }

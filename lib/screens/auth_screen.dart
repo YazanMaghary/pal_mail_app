@@ -8,6 +8,7 @@ import 'package:pal_mail_app/constants/widget.dart';
 import 'package:pal_mail_app/providers/auth_provider.dart';
 import 'package:pal_mail_app/providers/home_provider.dart';
 import 'package:pal_mail_app/screens/home_screen.dart';
+import 'package:pal_mail_app/screens/main_page.dart';
 import 'package:pal_mail_app/services/localizations_extention.dart';
 import 'package:pal_mail_app/widgets/flutterToastWidget.dart';
 import 'package:pal_mail_app/widgets/login_widget.dart';
@@ -226,7 +227,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                                     // ignore: use_build_context_synchronously
                                     navigatePushReplacement(
                                         context: context,
-                                        nextScreen: const HomeScreen());
+                                        nextScreen: const MainPage());
                                   }
                                 });
                               }

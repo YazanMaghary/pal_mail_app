@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pal_mail_app/controller/sender_profile_controller.dart';
+import 'package:pal_mail_app/providers/home_provider.dart';
+import 'package:pal_mail_app/screens/Sender_Mails_screen.dart';
 import 'package:pal_mail_app/services/localizations_extention.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,8 +38,20 @@ class _SenderScreenState extends State<SenderScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Senders"),
+          leading: IconButton(
+            onPressed: () {
+              navigatePop(context: context);
+            },
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.grey[600],
+          ),
+          title: Text(
+            "Senders",
+            style: TextStyle(color: Colors.grey[600]),
+          ),
           centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: Consumer<NewInboxProvider>(
           builder: (context, newInboxProv, _) {
@@ -47,6 +62,37 @@ class _SenderScreenState extends State<SenderScreen> {
                   height: height,
                   child: Column(
                     children: [
+                      mediumSpacer,
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: textFormFieldWidget(
+                              radius: 60,
+                              onSaved: (p0) {},
+                              hintText: context.localizations!.sendersearch,
+                              prefixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.search)),
+                              suffixIcon: IconButton(
+                                  splashColor: Colors.transparent,
+                                  onPressed: () {
+                                    searchController.text = '';
+                                  },
+                                  icon: const Icon(Icons.cancel)),
+                              colors: const Color(0xffE6E6E6),
+                              outlinedBorder: true,
+                              controller: searchController,
+                              onChange: (value) {
+                                newInboxProv.searchController =
+                                    searchController.text;
+                                newInboxProv.Filters();
+                                print(searchController.text);
+                              },
+                              onSubmit: () {},
+                              type: TextInputType.text),
+                        ),
+                      ),
                       Expanded(
                         flex: 8,
                         child: Container(
@@ -189,72 +235,110 @@ class _SenderScreenState extends State<SenderScreen> {
                                                   .toList()
                                                   .length,
                                           itemBuilder: (context, index2) {
-                                            return Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.account_circle,
-                                                      color: Color(0xff7C7C7C),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        searchController.text ==
+                                            return InkWell(
+                                              overlayColor: MaterialStateColor
+                                                  .resolveWith((states) =>
+                                                      Colors.transparent),
+                                              splashFactory:
+                                                  NoSplash.splashFactory,
+                                              onTap: () async {
+                                                final homeProv =
+                                                    Provider.of<HomeProvider>(
+                                                        context,
+                                                        listen: false);
+                                                homeProv.senderMails = null;
+                                                navigatePush(
+                                                    context: context,
+                                                    nextScreen: SenderMail(
+                                                        index: index,
+                                                        index2: index2,
+                                                        searchController:
+                                                            searchController,
+                                                        id: searchController
+                                                                    .text ==
                                                                 ''
-                                                            ? Text(newInboxProv
+                                                            ? newInboxProv
                                                                 .categories[
                                                                     index]
                                                                 .senders![
                                                                     index2]
-                                                                .name!)
-                                                            : Text(newInboxProv
+                                                                .id!
+                                                            : newInboxProv
                                                                 .filters[index]
-                                                                .senders!
-                                                                .where((element) => element
-                                                                    .name!
-                                                                    .contains(
-                                                                        searchController
-                                                                            .text))
-                                                                .toList()[
-                                                                    index2]
-                                                                .name!),
-                                                        const SizedBox(
-                                                          width: 4,
-                                                        ),
-                                                        searchController.text ==
-                                                                ''
-                                                            ? Text(newInboxProv
-                                                                .categories[
-                                                                    index]
                                                                 .senders![
                                                                     index2]
-                                                                .mobile!)
-                                                            : Text(newInboxProv
-                                                                .filters[index]
-                                                                .senders!
-                                                                .where((element) => element
-                                                                    .name!
-                                                                    .contains(
-                                                                        searchController
-                                                                            .text))
-                                                                .toList()[
-                                                                    index2]
-                                                                .mobile!),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const Divider(
-                                                  thickness: 1,
-                                                  color: Color(0xffC0BFC2),
-                                                ),
-                                              ],
+                                                                .id!));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.account_circle,
+                                                        color:
+                                                            Color(0xff7C7C7C),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 12,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          searchController.text ==
+                                                                  ''
+                                                              ? Text(newInboxProv
+                                                                  .categories[
+                                                                      index]
+                                                                  .senders![
+                                                                      index2]
+                                                                  .name!)
+                                                              : Text(newInboxProv
+                                                                  .filters[
+                                                                      index]
+                                                                  .senders!
+                                                                  .where((element) => element
+                                                                      .name!
+                                                                      .contains(
+                                                                          searchController
+                                                                              .text))
+                                                                  .toList()[
+                                                                      index2]
+                                                                  .name!),
+                                                          const SizedBox(
+                                                            width: 4,
+                                                          ),
+                                                          searchController.text ==
+                                                                  ''
+                                                              ? Text(newInboxProv
+                                                                  .categories[
+                                                                      index]
+                                                                  .senders![
+                                                                      index2]
+                                                                  .mobile!)
+                                                              : Text(newInboxProv
+                                                                  .filters[
+                                                                      index]
+                                                                  .senders!
+                                                                  .where((element) => element
+                                                                      .name!
+                                                                      .contains(
+                                                                          searchController
+                                                                              .text))
+                                                                  .toList()[
+                                                                      index2]
+                                                                  .mobile!),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const Divider(
+                                                    thickness: 1,
+                                                    color: Color(0xffC0BFC2),
+                                                  ),
+                                                ],
+                                              ),
                                             );
                                           },
                                         ),

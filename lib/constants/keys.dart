@@ -23,7 +23,7 @@ class Keys {
   static const statusUrl = '$baseUrl/statuses';
   static const attachmentUrl = '$baseUrl/attachments';
   static const sendersUrl = '$baseUrl/senders';
-  static const userUrl = '$baseUrl/user';
+  static const userUrl = '$baseUrl/users';
   static const roleUrl = '$baseUrl/roles';
 }
 

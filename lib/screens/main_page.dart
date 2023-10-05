@@ -20,7 +20,7 @@ class MainPage extends StatelessWidget {
         builder: (context, prov, child) {
           return Stack(children: [
             const DrawerScreen(),
-            prov.roleId == '1' ? const GuestScreen() : const HomeScreen(),
+            prov.roleId == '1' ? const GuestScreen() : const HomeScreen()
           ]);
         },
       ),

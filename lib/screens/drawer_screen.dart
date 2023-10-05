@@ -15,23 +15,52 @@ import 'package:pal_mail_app/controller/user_controller.dart';
 import 'package:pal_mail_app/widgets/navigate_widget.dart';
 import 'package:provider/provider.dart';
 
-class DrawerScreen extends StatefulWidget {
+class DrawerScreen extends StatelessWidget {
   const DrawerScreen({super.key});
 
-  @override
-  State<DrawerScreen> createState() => _DrawerScreenState();
-}
+  Future<void> getRole(context) async {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    await homeProvider.getRoleId();
+  }
 
-class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     final lanProv = Provider.of<LanguageProvider>(context, listen: false);
-    List<Map> drawerItem = [
-      {'icon': Icons.home, 'title': context.localizations?.home},
-      {'icon': Icons.person, 'title': context.localizations?.profilepage},
-      {'icon': Icons.account_box, 'title': context.localizations?.senders},
-      {'icon': Icons.settings, 'title': context.localizations?.usermang},
-    ];
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    List<Map> drawerItem = homeProvider.roleId == '2'
+        ? [
+            {'icon': Icons.home, 'title': context.localizations?.home},
+            {'icon': Icons.person, 'title': context.localizations?.profilepage},
+          ]
+        : homeProvider.roleId == '3'
+            ? [
+                {'icon': Icons.home, 'title': context.localizations?.home},
+                {
+                  'icon': Icons.person,
+                  'title': context.localizations?.profilepage
+                },
+                {
+                  'icon': Icons.account_box,
+                  'title': context.localizations?.senders
+                },
+              ]
+            : [
+                {'icon': Icons.home, 'title': context.localizations?.home},
+                {
+                  'icon': Icons.person,
+                  'title': context.localizations?.profilepage
+                },
+                {
+                  'icon': Icons.account_box,
+                  'title': context.localizations?.senders
+                },
+                {
+                  'icon': Icons.settings,
+                  'title': context.localizations?.usermang
+                },
+              ];
+    getRole(context);
     return SafeArea(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -93,7 +122,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                   case "User Management" || "ادارة المستخدمين":
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
-                                        return const SettingScreen();
+                                        return SettingScreen();
                                       },
                                     ));
 

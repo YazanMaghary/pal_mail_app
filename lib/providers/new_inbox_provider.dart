@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pal_mail_app/controller/new_inbox_controller.dart';
 
-import 'package:pal_mail_app/controller/sender_model.dart';
 import 'package:pal_mail_app/models/category_modl.dart' as cat;
 import 'package:pal_mail_app/providers/language_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../models/sender_model.dart';
 
 class NewInboxProvider extends ChangeNotifier {
   final NewInboxHelper _helper = NewInboxHelper.instance;

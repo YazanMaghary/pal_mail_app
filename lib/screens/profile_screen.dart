@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pal_mail_app/constants/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/profile_controller.dart';
@@ -45,8 +47,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           width: 300,
           child: FloatingActionButton(
             shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.r),
                 side: BorderSide(
-                    color: Colors.white, width: 2, style: BorderStyle.solid)),
+                    color: Colors.grey.withOpacity(0.5),
+                    width: 2,
+                    style: BorderStyle.solid)),
             onPressed: () async {
               setState(() {
                 isUpload = true;
@@ -64,8 +69,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       user = UserController().getLocalUser();
 
                       showAlert(context,
-                          message: "the inforamtion update",
-                          color: Colors.blue.withOpacity(0.75),
+                          message: "User Updated",
+                          color: Colors.green.withOpacity(0.75),
                           width: 150);
                     });
                   });
@@ -96,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       isUpload = false;
                       showAlert(context,
                           message: "User Updated",
-                          color: Colors.blue.withOpacity(0.75),
+                          color: Colors.green.withOpacity(0.75),
                           width: 150);
                     });
 
@@ -121,12 +126,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 });
               }
             },
-            backgroundColor: Colors.blue,
-            child: Text('Edit profile'),
+            backgroundColor: buttonBackGroundColor1,
+            child: const Text('Edit profile'),
           ),
         ),
       ),
-      backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         child: Stack(
           alignment: Alignment.topCenter,
@@ -143,9 +147,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_back_ios,
-                          color: Colors.white,
+                          color: Colors.grey[800],
                         ),
                       ),
                     ],
@@ -199,11 +203,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 45,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: buttonBackGroundColor1,
                                     borderRadius: BorderRadius.circular(25)),
                                 child: const Icon(
                                   Icons.edit,
-                                  color: Colors.blueAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -234,15 +238,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Expanded(
                               child: ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.person,
-                                  color: Colors.white,
+                                  color: Colors.grey[500],
                                   size: 40,
                                 ),
-                                title: const Text(
+                                title: Text(
                                   'Name:',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 16),
+                                      color: Colors.grey[800], fontSize: 16),
                                 ),
                                 subtitle: isEdit
                                     ? TextField(
@@ -258,8 +262,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               const EdgeInsets.only(bottom: 20),
                                           hintText:
                                               name ?? snapshot.data!.user.name,
-                                          hintStyle: const TextStyle(
-                                            color: Colors.white,
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey[800],
                                             fontSize: 20,
                                           ),
                                           border: InputBorder.none,
@@ -270,60 +274,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                               ),
                             ),
                             IconButton(
-                              padding:
-                                  const EdgeInsets.only(right: 45, bottom: 0),
+                              color: Colors.grey[800],
+                              padding: EdgeInsets.only(right: 45.w, bottom: 0),
                               onPressed: () {
                                 setState(() {
                                   isEdit = !isEdit;
                                 });
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.edit,
-                                color: Colors.white,
-                                size: 18,
+                                color: Colors.grey[800],
+                                size: 18.sp,
                               ),
                             ),
                           ],
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.email,
-                            size: 40,
-                            color: Colors.white,
+                            size: 40.sp,
+                            color: Colors.grey[800],
                           ),
                           title: Text(
                             'Email: ${snapshot.data!.user.email} ',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.grey[800], fontSize: 16.sp),
                           ),
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.alternate_email,
                             size: 40,
-                            color: Colors.white,
+                            color: Colors.grey[800],
                           ),
                           title: Text(
                             'Email Verified: ${snapshot.data!.user.emailVerifiedAt} ',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.grey[800], fontSize: 16),
                           ),
                         ),
                         ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Icons.book_outlined,
                             size: 36,
-                            color: Colors.white,
+                            color: Colors.grey[800],
                           ),
                           title: Text(
                             'Role: ${snapshot.data!.user.role?.name}',
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.grey[800], fontSize: 16),
                           ),
                         ),
                       ]),

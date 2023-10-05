@@ -33,7 +33,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
   @override
   Widget build(BuildContext context) {
     final detailsMailProvider = Provider.of<DetailsMailProvider>(context);
-    int attId = 0;
+    int? attId;
     String path = '';
     TextEditingController controller = TextEditingController();
     TextEditingController controllerActivity = TextEditingController();
@@ -52,14 +52,19 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
         actions: [
           IconButton(
               onPressed: () async {
-                print(widget.mail.id!);
+                print("attId");
+                print(widget.mail.id);
+                print(widget.mail.attachments![0].id);
+                print("attId");
+                setState(() {});
                 await detailsMailProvider
                     .updateMail(id: widget.mail.id!, body: {
                   'status_id': detailsMailProvider.statusMailsID.toString(),
                   "decision": controller.text,
                   "final_decision": controller.text,
-                  "idAttachmentsForDelete":
-                      attId == 0 ? json.encode([]) : json.encode([attId]),
+                  "idAttachmentsForDelete": jsonEncode([
+                    for (var element in widget.mail.attachments!) element.id
+                  ])
                 }).then((value) async {
                   final prov =
                       Provider.of<HomeProvider>(context, listen: false);
@@ -67,6 +72,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                   await prov.getFetchDataLoadding();
                   navigatePush(context: context, nextScreen: HomeScreen());
                 });
+                setState(() {});
               },
               icon: const Icon(Icons.save))
         ],
@@ -293,19 +299,19 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                     ),
                     Column(
                       children: [
-                        for (var element in detailsMailProvider.attachments!)
+                        for (int i = 0;
+                            i < detailsMailProvider.attachments!.length;
+                            i++)
                           Container(
                             margin: const EdgeInsets.all(5),
                             child: Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
-                                    attId = element.id!;
-                                    path = element.image!;
+                                  onTap: () async {
+                                    attId = widget.mail.attachments![i].id;
+                                    detailsMailProvider.deleteItemAttachments(
+                                        widget.mail.attachments![i]);
                                     setState(() {});
-                                    detailsMailProvider
-                                        .deleteItemAttachments(element);
-
                                     print(attId);
                                     print(path);
                                   },
@@ -325,7 +331,7 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                                   width: 8.w,
                                 ),
                                 Image.network(
-                                    '${Keys.baseUrlStorage}/${element.image!}',
+                                    '${Keys.baseUrlStorage}/${widget.mail.attachments![i].image!}',
                                     height: 46.h,
                                     width: 46.w,
                                     fit: BoxFit.fill),
@@ -333,7 +339,8 @@ class _DetailsMailScreenState extends State<DetailsMailScreen> {
                                   width: 12.w,
                                 ),
                                 Expanded(
-                                    child: Text(element.title!,
+                                    child: Text(
+                                        widget.mail.attachments![i].title!,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis)),
                                 IconButton(

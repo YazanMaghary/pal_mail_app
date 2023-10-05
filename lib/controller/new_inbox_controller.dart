@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pal_mail_app/constants/keys.dart';
 
-import 'package:pal_mail_app/controller/sender_model.dart';
 import 'package:pal_mail_app/models/category_modl.dart' as cat;
 
 import 'package:pal_mail_app/models/mails_model.dart';
 import 'package:pal_mail_app/services/helper/api_base_helper.dart';
+import '../models/sender_model.dart';
 import '../widgets/flutterToastWidget.dart';
 
 class NewInboxHelper {
